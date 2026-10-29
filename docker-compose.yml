@@ -1,0 +1,15 @@
+# Deploy: copie .env.example para .env (chmod 600) e defina EMBED_API_KEY; depois:
+#   docker compose up -d --build
+# O .env fica fora da imagem (.dockerignore) e fora do git (.gitignore).
+services:
+  embedding-api:
+    build: .
+    image: embedding-api:latest
+    container_name: embedding-api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      # Porta 80 do host -> 8080 do container. HTTP puro: sem TLS na frente, a chave (Bearer)
+      # e as consultas trafegam em claro. Ver "Deploy" no README antes de expor na internet.
+      - "80:8080"
+    mem_limit: 6g

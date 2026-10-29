@@ -64,8 +64,18 @@ docker build -t embedding-api .
 docker run -p 8080:8080 -e EMBED_API_KEY=... embedding-api
 ```
 
+Com Docker Compose (`docker-compose.yml`: publica a porta **80** do host, `restart: unless-stopped`, limite de 6 GB):
+
+```
+cp .env.example .env && chmod 600 .env     # edite EMBED_API_KEY
+docker compose up -d --build
+curl -s http://localhost/health
+```
+
+Atualizar: `git pull && docker compose up -d --build`.
+
 **O build do Dockerfile ainda não foi executado.** Para produção:
-- HTTPS na frente (proxy reverso); o servidor fala HTTP puro.
+- HTTPS na frente (proxy reverso); o servidor fala HTTP puro. **Sem TLS, a chave Bearer e as consultas trafegam em claro**; o compose publica a porta 80 em HTTP, então só exponha assim numa rede de confiança ou adicione TLS.
 - Chave longa e aleatória em `EMBED_API_KEY` (o servidor não sobe sem ela; `EMBED_ALLOW_NO_AUTH=1` existe só para dev local).
 - ~3 GB de RAM livres e CPU dedicada. Sem GPU a latência depende dos núcleos.
 - As consultas enviadas são derivadas do código revisado: restrinja a rede de acesso.
