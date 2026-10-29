@@ -1,0 +1,6 @@
+# torch CPU-only primeiro (evita ~2 GB de CUDA):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt
+sentence-transformers
+fastapi
+uvicorn[standard]

@@ -1,0 +1,4 @@
+# Para rodar os testes (usam um codificador falso: não precisam de torch nem do modelo)
+-r requirements.txt
+pytest
+httpx
